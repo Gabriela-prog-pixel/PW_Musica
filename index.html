@@ -38,24 +38,33 @@
       <section id="formulario" class="formulario">
         <form id="feeling-form">
           <div class="sentimientos">
-            <label for="situacion">Cuéntanos qué está pasando</label>
-            <textarea
-              id="situacion"
-              name="situacion"
-              required
-              minlength="5"
-              maxlength="300"
-              rows="4"
-              placeholder="Escribe cómo te sientes o qué está pasando en tu vida..."
-            ></textarea>
+            <label class="sentimientos__etiqueta" for="situacion">
+              Cuéntanos qué está pasando
+            </label>
+            <div class="nota">
+              <textarea
+                id="situacion"
+                name="situacion"
+                class="nota__texto"
+                required
+                minlength="5"
+                maxlength="300"
+                rows="4"
+                placeholder="Escribe cómo te sientes o qué está pasando en tu vida..."
+              ></textarea>
+            </div>
           </div>
 
           <div class="emociones">
-            <h2 id="emociones-titulo">¿Qué emociones estás sintiendo?</h2>
-            <p class="nota" id="emociones-contador">Elegiste 0 de 3</p>
+            <div class="emociones__cabecera">
+              <h2 id="emociones-titulo">¿Qué emociones estás sintiendo?</h2>
+              <p class="emociones__contador" id="emociones-contador">
+                Elegiste 0 de 3
+              </p>
+            </div>
             <div
               id="emociones-grid"
-              class="emociones-grid"
+              class="emociones__grid"
               role="group"
               aria-labelledby="emociones-titulo"
             ></div>
@@ -69,9 +78,9 @@
       </section>
 
       <section id="results-section" class="resultados" hidden>
-        <h2>Canciones para ti</h2>
-        <p id="keywords-info" class="nota"></p>
-        <div id="songs-grid" class="songs-grid"></div>
+        <h2 class="resultados__titulo">Canciones para ti</h2>
+        <p id="keywords-info" class="resultados__info"></p>
+        <div id="songs-grid" class="resultados__grid"></div>
       </section>
     </main>
 
@@ -86,7 +95,7 @@
         ×
       </button>
 
-      <div class="vista__contenido">
+      <div class="vista__panel">
         <div class="vista__izquierda">
           <img
             id="vista-portada"
@@ -103,16 +112,16 @@
             preload="none"
           ></audio>
           <div class="vista__navegacion">
-            <button id="vista-anterior" class="vista__anterior" type="button">
+            <button id="vista-anterior" class="vista__boton" type="button">
               Anterior
             </button>
-            <button id="vista-siguiente" class="vista__siguiente" type="button">
+            <button id="vista-siguiente" class="vista__boton" type="button">
               Siguiente
             </button>
           </div>
         </div>
-        <div class="vista__derecha">
-          <h3>Letra</h3>
+        <div class="vista__letra-caja">
+          <h3 class="vista__letra-titulo">Letra</h3>
           <pre id="vista-letra" class="vista__letra"></pre>
         </div>
       </div>
