@@ -36,28 +36,28 @@
       </section>
 
       <section id="formulario" class="formulario">
-        <form id="feeling-form">
-          <div class="sentimientos">
-            <label class="sentimientos__etiqueta" for="situacion">
-              Cuéntanos qué está pasando
-            </label>
-            <div class="nota">
-              <textarea
-                id="situacion"
-                name="situacion"
-                class="nota__texto"
-                required
-                minlength="5"
-                maxlength="300"
-                rows="4"
-                placeholder="Escribe cómo te sientes o qué está pasando en tu vida..."
-              ></textarea>
-            </div>
+        <form id="feeling-form" class="sentimientos">
+          <label class="sentimientos__etiqueta" for="situacion">
+            Cuéntanos qué está pasando
+          </label>
+          <div class="nota">
+            <textarea
+              id="situacion"
+              name="situacion"
+              class="nota__texto"
+              required
+              minlength="5"
+              maxlength="300"
+              rows="4"
+              placeholder="Ej: Hoy extraño a mis amigos..."
+            ></textarea>
           </div>
 
           <div class="emociones">
             <div class="emociones__cabecera">
-              <h2 id="emociones-titulo">¿Qué emociones estás sintiendo?</h2>
+              <h2 id="emociones-titulo" class="sentimientos__etiqueta">
+                ¿Qué emociones te acompañan?
+              </h2>
               <p class="emociones__contador" id="emociones-contador">
                 Elegiste 0 de 3
               </p>
