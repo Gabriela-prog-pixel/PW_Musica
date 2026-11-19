@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moodify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="encabezado">
+      <p class="encabezado__logo">Moodify</p>
+    </header>
+
+    <main>
+      <section class="portada">
+        <div class="disco" aria-hidden="true">
+          <div class="disco__giro">
+            <div class="disco__etiqueta"></div>
+          </div>
+        </div>
+        <p class="portada__nota">Una canción para cada emoción</p>
+        <h1 class="portada__titulo">
+          ¿Qué estás <span class="portada__color">sintiendo</span> hoy?
+        </h1>
+        <p class="portada__texto">
+          Cuéntanos cómo te sientes y encuentra canciones que acompañen tu
+          momento.
+        </p>
+        <a class="boton" href="#formulario">Empezar</a>
+      </section>
+
+      <section id="formulario" class="formulario">
+        <form id="feeling-form">
+          <div class="sentimientos">
+            <label for="situacion">Cuéntanos qué está pasando</label>
+            <textarea
+              id="situacion"
+              name="situacion"
+              required
+              minlength="5"
+              maxlength="300"
+              rows="4"
+              placeholder="Escribe cómo te sientes o qué está pasando en tu vida..."
+            ></textarea>
+          </div>
+
+          <div class="emociones">
+            <h2 id="emociones-titulo">¿Qué emociones estás sintiendo?</h2>
+            <p class="nota" id="emociones-contador">Elegiste 0 de 3</p>
+            <div
+              id="emociones-grid"
+              class="emociones-grid"
+              role="group"
+              aria-labelledby="emociones-titulo"
+            ></div>
+          </div>
+
+          <button id="submit-btn" class="boton" type="submit">
+            Buscar canciones
+          </button>
+          <p id="status" class="estado" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="results-section" class="resultados" hidden>
+        <h2>Canciones para ti</h2>
+        <p id="keywords-info" class="nota"></p>
+        <div id="songs-grid" class="songs-grid"></div>
+      </section>
+    </main>
+
+    <dialog id="vista-cancion" class="vista" aria-labelledby="vista-titulo">
+      <div id="vista-fondo" class="vista__fondo" aria-hidden="true"></div>
+      <button
+        id="vista-cerrar"
+        class="vista__cerrar"
+        type="button"
+        aria-label="Cerrar"
+      >
+        ×
+      </button>
+
+      <div class="vista__contenido">
+        <div class="vista__izquierda">
+          <img
+            id="vista-portada"
+            class="vista__portada"
+            alt="Portada de la canción"
+          />
+          <h2 id="vista-titulo" class="vista__titulo"></h2>
+          <p id="vista-artista" class="vista__artista"></p>
+          <p id="vista-info" class="vista__info"></p>
+          <audio
+            id="vista-audio"
+            class="vista__audio"
+            controls
+            preload="none"
+          ></audio>
+          <div class="vista__navegacion">
+            <button id="vista-anterior" class="vista__anterior" type="button">
+              Anterior
+            </button>
+            <button id="vista-siguiente" class="vista__siguiente" type="button">
+              Siguiente
+            </button>
+          </div>
+        </div>
+        <div class="vista__derecha">
+          <h3>Letra</h3>
+          <pre id="vista-letra" class="vista__letra"></pre>
+        </div>
+      </div>
+    </dialog>
+
+    <div
+      id="notification"
+      class="notification"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <script src="datos.js"></script>
+    <script src="api.js"></script>
+    <script src="estrellas.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
