@@ -1,0 +1,167 @@
+
+/* BLOQUE 1: variables y base */
+:root {
+    --fondo: #0D0A0F;
+    --crema: #F5ECD9;
+    --crema-suave: rgba(245, 236, 217, 0.72);
+    --linea: rgba(245, 236, 217, 0.18);
+    --acento: #F5ECD9;
+    --fuente-titulo: 'Anton', Impact, sans-serif;
+    --fuente-texto: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --fuente-nota: 'Caveat', 'Segoe Script', cursive;
+    --radio: 18px;
+    --sombra: 0 14px 30px rgba(0, 0, 0, 0.45);
+}
+* { box-sizing: border-box; }
+html { background: var(--fondo); scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; font-family: var(--fuente-texto); color: var(--crema); line-height: 1.6; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--crema); outline-offset: 3px; }
+
+/* BLOQUE 2: un color por emoción (--acento lo usan las tarjetas de emoción, de canción y la vista ampliada) */
+[data-emocion="alegria"]   { --acento: #E9B949; }
+[data-emocion="amor"]      { --acento: #FF6F91; }
+[data-emocion="esperanza"] { --acento: #7DD3B0; }
+[data-emocion="tristeza"]  { --acento: #6E9BFF; }
+[data-emocion="nostalgia"] { --acento: #F29A52; }
+[data-emocion="calma"]     { --acento: #8ED6DD; }
+[data-emocion="enojo"]     { --acento: #FF5A4F; }
+[data-emocion="miedo"]     { --acento: #A98BFF; }
+
+/* BLOQUE 3: estrellas del fondo */
+.estrellas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.estrella { position: absolute; border-radius: 50%; background: var(--crema); opacity: 0.1;
+            animation: titilar var(--duracion, 5s) ease-in-out var(--retraso, 0s) infinite; }
+@keyframes titilar { 0%, 100% { opacity: 0.08; } 50% { opacity: var(--brillo, 0.6); } }
+
+/* BLOQUE 4: encabezado, portada y botón */
+.encabezado { display: flex; justify-content: center; padding: 18px 24px; }
+.encabezado__logo { margin: 0; font-family: var(--fuente-titulo); letter-spacing: 0.14em; text-transform: uppercase; font-size: 1.05rem; color: var(--crema-suave); }
+.portada { position: relative; overflow: hidden; min-height: calc(100vh - 64px); padding: 16px max(24px, calc((100% - 1100px) / 2)) 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 16px; }
+.portada__nota { margin: 0; font-family: var(--fuente-nota); font-size: 1.9rem; color: var(--crema-suave); }
+.portada__titulo { margin: 0; max-width: 11ch; font-family: var(--fuente-titulo); font-weight: 400; text-transform: uppercase; font-size: clamp(3rem, min(10vw, 15vh), 7.5rem); line-height: 0.95; }
+.portada__texto { margin: 0; max-width: 46ch; font-size: 1.15rem; color: var(--crema-suave); }
+.boton { display: inline-block; padding: 14px 30px; border: 2px solid var(--crema); border-radius: 999px; background: var(--crema); color: var(--fondo);
+         font: 700 1rem var(--fuente-texto); letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+         transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease; }
+.boton:hover { background: transparent; color: var(--crema); transform: translateY(-2px); }
+.boton:disabled { opacity: 0.5; cursor: wait; transform: none; }
+
+/* BLOQUE 5: formulario (nota con cinta y tarjetas de emoción) */
+.formulario { max-width: 1000px; margin: 0 auto; padding: 40px 24px 24px; }
+.sentimientos { display: flex; flex-direction: column; align-items: flex-start; gap: 40px; }
+.sentimientos__etiqueta { margin: 0; font-family: var(--fuente-titulo); font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; font-size: 1.5rem; }
+.nota { position: relative; width: 100%; padding: 28px; background: var(--crema); color: var(--fondo); border-radius: 6px; box-shadow: var(--sombra); transform: rotate(-0.7deg); }
+.nota::before { content: ''; position: absolute; top: -14px; left: 50%; width: 120px; height: 28px; background: rgba(170, 160, 140, 0.6); transform: translateX(-50%) rotate(2deg); }
+.nota__texto { width: 100%; margin-top: 12px; padding-top: 12px; background: transparent; border: none; border-top: 1px dashed rgba(13, 10, 15, 0.3);
+               font: 500 1.7rem/1.3 var(--fuente-nota); color: var(--fondo); resize: vertical; }
+.nota__texto::placeholder { color: rgba(13, 10, 15, 0.45); }
+.nota__texto:focus-visible { outline: none; }
+.emociones { width: 100%; }
+.emociones__cabecera { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 18px; }
+.emociones__contador { margin: 0; font-family: var(--fuente-nota); font-size: 1.5rem; color: var(--crema-suave); }
+.emociones__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.emocion-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-height: 130px; padding: 22px 20px 26px; text-align: left;
+                border: 3px solid transparent; border-radius: var(--radio); background: var(--acento); color: var(--fondo); box-shadow: var(--sombra); cursor: pointer;
+                transform: rotate(var(--giro, 0deg)); transition: transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease; }
+.emocion-card:nth-child(odd) { --giro: -1deg; }
+.emocion-card:nth-child(even) { --giro: 1deg; }
+.emocion-card:hover { transform: translateY(-4px) rotate(0); }
+.emocion-card__nombre { font-family: var(--fuente-titulo); font-size: 1.7rem; text-transform: uppercase; line-height: 1; }
+.emocion-card__frase { font-family: var(--fuente-nota); font-weight: 700; font-size: 1.35rem; line-height: 1.15; }
+.emocion-card--elegida { border-color: var(--crema); transform: translateY(-4px) rotate(0); box-shadow: 0 0 0 3px var(--fondo), 0 0 0 6px var(--acento), var(--sombra); }
+.emocion-card--elegida::after { content: ''; position: absolute; top: 14px; right: 14px; width: 16px; height: 16px; border-radius: 50%; background: var(--fondo); }
+.emocion-card--bloqueada { opacity: 0.35; filter: saturate(0.6); }
+.estado { min-height: 1.6em; margin: 16px 0 0; text-align: center; color: var(--crema-suave); }
+.estado--error { color: #ff8a80; font-weight: 700; }
+
+/* BLOQUE 6: resultados (polaroids con aparición suave) */
+.resultados { max-width: 1100px; margin: 0 auto; padding: 48px 24px 96px; }
+.resultados__titulo { margin: 0 0 8px; font-family: var(--fuente-titulo); font-weight: 400; text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 3.6rem); }
+.resultados__info { margin: 0 0 36px; font-family: var(--fuente-nota); font-size: 1.5rem; color: var(--crema-suave); }
+.resultados__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 36px 28px; }
+.polaroid { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 14px 14px 18px; text-align: left; border: none; border-radius: 10px;
+            background: var(--acento); color: var(--fondo); font: inherit; box-shadow: var(--sombra); cursor: pointer;
+            transform: rotate(var(--giro, 0deg)); transition: transform 0.25s ease, box-shadow 0.25s ease;
+            animation: aparecer 0.9s ease-out backwards; animation-delay: calc(var(--i, 0) * 90ms); }
+.polaroid:nth-child(odd) { --giro: -1.8deg; }
+.polaroid:nth-child(even) { --giro: 1.5deg; }
+.polaroid::before { content: ''; position: absolute; top: -10px; left: 50%; width: 70px; height: 20px; background: rgba(245, 236, 217, 0.75); transform: translateX(-50%) rotate(-3deg); }
+.polaroid:hover, .polaroid:focus-within { transform: translateY(-6px) rotate(0) scale(1.02); box-shadow: 0 22px 40px rgba(0, 0, 0, 0.55); }
+.polaroid__foto { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 4px; background: rgba(13, 10, 15, 0.28); }
+.polaroid__foto img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.05); transition: opacity 1s ease, transform 1.3s ease; }
+.polaroid__foto img.cargada { opacity: 1; transform: scale(1); }
+.polaroid__titulo { margin-top: 8px; font-weight: 700; font-size: 1.05rem; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.polaroid__artista { font-family: var(--fuente-nota); font-weight: 700; font-size: 1.4rem; line-height: 1; }
+@keyframes aparecer { from { opacity: 0; transform: translateY(22px) rotate(var(--giro, 0deg)); } }
+
+/* BLOQUE 7: vista ampliada con efecto vidrio (glassmorphism) */
+.vista { width: min(1100px, 94vw); height: min(720px, 92vh); max-width: none; max-height: none; padding: 0; border: none; border-radius: 28px; overflow: hidden; background: var(--fondo); color: var(--crema); }
+.vista[open] { display: block; animation: abrir 0.4s ease; }
+.vista::backdrop { background: rgba(5, 3, 8, 0.78); backdrop-filter: blur(6px); }
+.vista__fondo { position: absolute; inset: -60px; background-size: cover; background-position: center; filter: blur(38px) saturate(1.4); opacity: 0.9; }
+.vista__panel { position: relative; display: grid; grid-template-columns: minmax(240px, 340px) 1fr; gap: 28px; height: calc(100% - 48px); margin: 24px; padding: 28px; overflow: auto;
+                border: 1px solid rgba(245, 236, 217, 0.22); border-radius: 24px; background: rgba(14, 9, 20, 0.5);
+                -webkit-backdrop-filter: blur(20px) saturate(1.3); backdrop-filter: blur(20px) saturate(1.3); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); }
+.vista__cerrar { position: absolute; top: 14px; right: 14px; z-index: 2; width: 44px; height: 44px; border: 1px solid var(--linea); border-radius: 50%;
+                 background: rgba(13, 10, 15, 0.5); color: var(--crema); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.vista__izquierda { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.vista__portada { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border: 4px solid var(--acento); border-radius: 16px; box-shadow: var(--sombra); }
+.vista__titulo { margin: 8px 0 0; font-family: var(--fuente-titulo); font-weight: 400; text-transform: uppercase; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.05; }
+.vista__artista { margin: 0; font-family: var(--fuente-nota); font-weight: 700; font-size: 1.7rem; line-height: 1.1; color: var(--acento); }
+.vista__info { margin: 0; font-size: 0.9rem; color: var(--crema-suave); }
+.vista__audio { width: 100%; margin-top: 6px; }
+.vista__navegacion { display: flex; gap: 10px; margin-top: auto; }
+.vista__boton { flex: 1; padding: 10px 14px; border: 1px solid var(--linea); border-radius: 999px; background: rgba(245, 236, 217, 0.08); color: var(--crema); font: inherit; cursor: pointer; }
+.vista__boton:hover:not(:disabled) { background: var(--acento); color: var(--fondo); }
+.vista__boton:disabled { opacity: 0.35; cursor: default; }
+.vista__letra-caja { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.vista__letra-titulo { margin: 0 56px 12px 0; font-family: var(--fuente-titulo); font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em; font-size: 1.2rem; }
+.vista__letra { flex: 1; min-height: 0; margin: 0; padding: 20px 22px; overflow: auto; white-space: pre-wrap; font: 1.05rem/1.7 var(--fuente-texto);
+                border: 1px solid rgba(245, 236, 217, 0.12); border-radius: 16px; background: rgba(5, 3, 8, 0.35); }
+.vista__letra--mensaje { color: var(--crema-suave); font-style: italic; }
+@keyframes abrir { from { opacity: 0; transform: translateY(16px) scale(0.98); } }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* BLOQUE 8: notificación */
+.notification { position: fixed; right: 28px; bottom: 28px; z-index: 2000; padding: 14px 22px; border-radius: 12px; background: var(--crema); color: var(--fondo);
+                font-weight: 700; box-shadow: var(--sombra); opacity: 0; transform: translateY(20px); pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
+.notification--show { opacity: 1; transform: translateY(0); }
+.notification--error { background: #ff8a80; }
+
+/* BLOQUE 10: portada animada (palabra de colores y disco que gira) */
+.portada__nota, .portada__titulo, .portada__texto, .portada .boton { position: relative; z-index: 1; }
+.portada__color { animation: ciclo-color 16s linear infinite; }
+.disco { --disco: clamp(300px, 44vw, 640px); position: absolute; top: 50%; right: calc(var(--disco) / -2); z-index: 0; width: var(--disco); height: var(--disco); margin-top: calc(var(--disco) / -2); pointer-events: none; }
+.disco__giro { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border: 1px solid var(--linea); border-radius: 50%;
+               background: conic-gradient(transparent 0 18%, rgba(245, 236, 217, 0.14) 25%, transparent 32% 68%, rgba(245, 236, 217, 0.14) 75%, transparent 82%),
+                           repeating-radial-gradient(circle, #1a1420 0 2px, #0d0a11 2px 5px);
+               box-shadow: 0 0 80px rgba(0, 0, 0, 0.6); animation: girar 30s linear infinite; }
+.disco__etiqueta { position: relative; width: 34%; aspect-ratio: 1; border-radius: 50%; background: currentColor; animation: ciclo-color 16s linear infinite; }
+.disco__etiqueta::before { content: ''; position: absolute; top: 50%; left: 50%; width: 9%; height: 9%; margin: -4.5% 0 0 -4.5%; border-radius: 50%; background: var(--fondo); }
+.disco__etiqueta::after { content: ''; position: absolute; top: 14%; left: 50%; width: 14%; height: 14%; margin-left: -7%; border-radius: 50%; background: rgba(13, 10, 15, 0.35); }
+@keyframes ciclo-color { 0%, 100% { color: #E9B949; } 12.5% { color: #FF6F91; } 25% { color: #7DD3B0; } 37.5% { color: #6E9BFF; }
+                         50% { color: #F29A52; } 62.5% { color: #8ED6DD; } 75% { color: #FF5A4F; } 87.5% { color: #A98BFF; } }
+
+/* BLOQUE 11: vista previa en las tarjetas */
+.polaroid__abrir { display: flex; flex-direction: column; gap: 6px; padding: 0; border: none; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.polaroid__preview { display: flex; align-items: center; gap: 8px; align-self: flex-start; margin-top: 6px; padding: 6px 14px 6px 10px; border: 2px solid var(--fondo); border-radius: 999px;
+                     background: transparent; color: var(--fondo); font: 700 0.85rem var(--fuente-texto); cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.polaroid__preview::before { content: ''; width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
+.polaroid__preview--sonando::before { width: 4px; height: 12px; border-width: 0 3px; border-color: currentColor; }
+.polaroid__preview:hover, .polaroid__preview--sonando { background: var(--fondo); color: var(--acento); }
+
+/* BLOQUE 9: celulares y movimiento reducido */
+@media (max-width: 820px) {
+    .emociones__grid { grid-template-columns: repeat(2, 1fr); }
+    .disco { --disco: 300px; opacity: 0.35; }
+    .vista { height: 92vh; }
+    .vista__panel { grid-template-columns: 1fr; grid-auto-rows: min-content; }
+    .vista__letra { flex: none; max-height: 340px; }
+    .notification { left: 16px; right: 16px; bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .estrella, .polaroid, .vista[open], .disco__giro { animation: none; }
+    .portada__color, .disco__etiqueta { animation: none; color: #E9B949; }
+    .polaroid__foto img { transition: none; }
+}
